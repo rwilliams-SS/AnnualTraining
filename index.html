@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Scheduler | Shared Support Inc.</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0F1117; overflow-x: hidden; }
+    #root { min-height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+  // Storage polyfill for GitHub Pages (uses localStorage)
+  if (!window.storage) {
+    window.storage = {
+      async get(key) {
+        const val = localStorage.getItem('ts_' + key);
+        if (val === null) throw new Error('Key not found');
+        return { key, value: val, shared: false };
+      },
+      async set(key, value) {
+        localStorage.setItem('ts_' + key, value);
+        return { key, value, shared: false };
+      },
+      async delete(key) {
+        localStorage.removeItem('ts_' + key);
+        return { key, deleted: true, shared: false };
+      },
+      async list(prefix) {
+        const keys = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k.startsWith('ts_' + (prefix || ''))) keys.push(k.replace('ts_', ''));
+        }
+        return { keys, prefix, shared: false };
+      }
+    };
+  }
+  </script>
+  <script src="bundle.js"></script>
+</body>
+</html>
